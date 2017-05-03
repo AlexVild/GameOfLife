@@ -1,0 +1,68 @@
+<!doctype html>
+<html ng-app="GOL">
+    <head>
+        <title>Game of Life</title>
+        <link rel="stylesheet" type="text/css" href="main.css">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="app.js"></script>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/darkly/bootstrap.min.css" rel="stylesheet" integrity="sha384-S7YMK1xjUjSpEnF4P8hPUcgjXYLZKK3fQW1j5ObLSl787II9p8RO9XUGehRmKsxd" crossorigin="anonymous">
+    </head>
+    <body ng-controller="MainController">
+        <div class="container">
+            <h1 align="center">Conway's Game of Life</h1>
+            <h3 align="center">By Alex Vild</h3>
+            <div>&nbsp;</div>
+            <div>&nbsp;</div>
+            <form name="grid-size">
+                <div class="input-group col-xs-2 col-xs-offset-5">
+                    <span class="input-group-addon">Width</span>
+                    <input type="number" min="1" step="1" class="form-control" ng-model="width" ng-change="generateTable()"></input>
+                </div>
+                <div>&nbsp;</div>
+                <div class="input-group col-xs-2 col-xs-offset-5">
+                    <span class="input-group-addon">Height</span>
+                    <input type="number" min="1" step="1" class="form-control" ng-model="height" ng-change="generateTable()"></input>
+                </div>
+                <div>&nbsp;</div>
+                <div class="row">
+                    <button type="submit" class="btn btn-default col-xs-2 col-xs-offset-3" ng-click="play()">Play!</button>
+                    <button type="submit" class="btn btn-default col-xs-2 col-xs-offset-2" ng-click="generateTable()">Clear!</button>
+                </div>
+            </form>
+            <!-- Table below -->
+            <div class="row">
+                <table class="table table-bordered game-cell">
+                    <tr ng-repeat="x in table" ng-init="outer = $index">
+                        <td ng-repeat="y in x track by $index" ng-init="inner = $index" align="center" ng-click="changeProp(outer, inner)" ng-class="[{alive: y.alive}]">
+                            {{ y.display }}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="row">
+                <div class="checkbox" align="center">
+                    <label><input type="checkbox" ng-model="animate">Animate?</label>
+                </div>
+                <div>&nbsp;</div>
+                <div class="input-group col-xs-4 col-xs-offset-4">
+                    <span class="input-group-addon">Update Time (ms)</span>
+                    <input type="number" min="500" step="500" class="form-control" ng-model="animationTime" ng-disabled="!animate"></input>
+                </div>
+            </div>
+
+            <div class="row">
+                <div>&nbsp;</div>
+                <h3 class="col-xs-12" align="center">Sample Cases</h3>
+                <button class="btn btn-default col-xs-3" ng-click="sample('given')">Given Problem</button>
+                <button class="btn btn-default col-xs-3" ng-click="sample('toad')">Toad</button>
+                <button class="btn btn-default col-xs-3" ng-click="sample('ship')">Space Ship</button>
+                <button class="btn btn-default col-xs-3" ng-click="sample('safe')">Safe Shapes</button>
+            </div>
+        </div>
+    </body>
+</html>
